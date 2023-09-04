@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import data.UserData;
+import entity.User;
 import utils.ResponseUtil;
 
 //아이디 중복확인
@@ -16,21 +18,26 @@ import utils.ResponseUtil;
 public class DuplicateUsername extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-	private String[] usernames = {"aaa", "bbb", "ccc"};
-	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		
+		//getParameter로 username 받아옴 
 		String username = request.getParameter("username");
-		
-		for (int i = 0; i < usernames.length; i++) {
-			if (Objects.equals(usernames[i], username)) {
-				ResponseUtil.response(response).of(400).body(true);
-				return;
+		Boolean responseData = false;
+
+		// user 에서 하나씩 꺼내는 기능 , 400이면 중복됐다? 
+		// 400으로 응답하는게 아니라 200 으로 응답함 (정상적으로 됐으니까/?? )
+		for(User user : UserData.userList) {
+			if (Objects.equals(user.getUsername(), username)) {
+//				ResponseUtil.response(response).of(200).body(true);
+//				return;
+				responseData = true;
+				break;
 			}
 		}
 		
-		ResponseUtil.response(response).of(200).body(false);
+		
+		ResponseUtil.response(response).of(200).body(responseData); 
+		//응답
 		
 	}
 }
