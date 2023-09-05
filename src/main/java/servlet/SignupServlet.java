@@ -49,7 +49,7 @@ public class SignupServlet extends HttpServlet {
 				.username((String) userMap.get("username"))
 				.password((String) userMap.get("password"))
 				.name((String) userMap.get("name"))
-				.name((String) userMap.get("email"))
+				.email((String) userMap.get("email"))
 				.build();
 		
 		userList.add(user);
